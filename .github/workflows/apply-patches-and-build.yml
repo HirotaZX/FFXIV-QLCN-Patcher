@@ -1,0 +1,40 @@
+name: Apply Patches and Build
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build on Windows
+    runs-on: windows-2022
+    steps:
+      - name: Checkout patches
+        uses: actions/checkout@v4
+      - name: Checkout Dalamud
+        uses: actions/checkout@v4
+        with:
+          repository: 'ottercorp/Dalamud'
+          path: '.\Dalamud'
+          submodules: recursive
+          fetch-depth: 0
+      - name: Checkout Launcher
+        uses: actions/checkout@v4
+        with:
+          repository: 'ottercorp/FFXIVQuickLauncher'
+          path: '.\FFXIVQuickLauncher'
+          submodules: recursive
+          fetch-depth: 0
+      - name: Apply Dalamud Patches
+        working-directory: .\Dalamud
+        run: |
+          git checkout -b patched 9.1.0.2
+          Get-ChildItem ..\patches\Dalamud\*.cherry | % {$_.FullName} | % { Get-Content $_ } | git cherry-pick -X theirs --stdin
+          Get-ChildItem ..\patches\Dalamud\*.patch | % {$_.FullName} | % { Get-Content $_ } | git apply --whitespace=fix
+          git log --oneline -n 5
+          git diff --name-status
+      - name: Apply Launcher Patches
+        working-directory: .\FFXIVQuickLauncher
+        run: |
+          git checkout -b patched 6.3.14-beta9
+          Get-ChildItem ..\patches\FFXIVQuickLauncher\*.cherry | % {$_.FullName} | % { Get-Content $_ } | git cherry-pick -X theirs --stdin
+          Get-ChildItem ..\patches\FFXIVQuickLauncher\*.patch | % {$_.FullName} | % { Get-Content $_ } | git apply --whitespace=fix
+          git log --oneline -n 5
+          git diff --name-status
