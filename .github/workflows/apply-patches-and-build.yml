@@ -6,9 +6,9 @@ jobs:
     name: Build on Windows
     runs-on: windows-2022
     steps:
-      - uses: fregante/setup-git-user@v2
       - name: Checkout patches
         uses: actions/checkout@v4
+      - uses: fregante/setup-git-user@v2
       - name: Checkout Dalamud
         uses: actions/checkout@v4
         with:
