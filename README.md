@@ -8,4 +8,6 @@
 
 Patches which remove unreasonable ToS, analytics, plugin bans and integrity check from Dalamud and XIVLauncher CN.
 
-[Diffs between goatcorp and ottercorp](https://github.com/goatcorp/Dalamud/compare/master...ottercorp:master)
+### Diffs between goatcorp and ottercorp
+https://github.com/goatcorp/Dalamud/compare/master...ottercorp:master
+https://github.com/goatcorp/FFXIVQuickLauncher/compare/master...ottercorp:FFXIVQuickLauncher:CN
