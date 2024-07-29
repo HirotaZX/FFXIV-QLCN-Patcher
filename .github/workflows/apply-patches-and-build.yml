@@ -1,5 +1,9 @@
 name: Apply Patches and Build
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
+
+env:
+  DALAMUD_VERSION: 9.1.0.2
+  LAUNCHER_VERSION: 6.3.14-beta9
 
 jobs:
   build:
@@ -29,7 +33,7 @@ jobs:
       - name: Apply Dalamud Patches
         working-directory: .\Dalamud
         run: |
-          git checkout -b patched 9.1.0.2
+          git checkout -b patched $env:DALAMUD_VERSION
           Get-ChildItem ..\patches\Dalamud\*.cherry | % {$_.FullName} | % { Get-Content $_ } | git cherry-pick -X theirs --stdin
           Get-ChildItem ..\patches\Dalamud\*.patch | % {$_.FullName} | % { Get-Content $_ } | git apply --whitespace=fix
           git log --oneline -n 5
@@ -37,7 +41,7 @@ jobs:
       - name: Apply Launcher Patches
         working-directory: .\FFXIVQuickLauncher
         run: |
-          git checkout -b patched 6.3.14-beta9
+          git checkout -b patched $env:LAUNCHER_VERSION
           Get-ChildItem ..\patches\FFXIVQuickLauncher\*.cherry | % {$_.FullName} | % { Get-Content $_ } | git cherry-pick -X theirs --stdin
           Get-ChildItem ..\patches\FFXIVQuickLauncher\*.patch | % {$_.FullName} | % { Get-Content $_ } | git apply --whitespace=fix
           git log --oneline -n 5
@@ -60,10 +64,18 @@ jobs:
         run: |
           cd "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\"
             .\MSBuild.exe $Env:GITHUB_WORKSPACE\FFXIVQuickLauncher\src\XIVLauncher.sln /t:Build /p:Configuration=ReleaseNoUpdate
+      - name: Arrange files
+        run: |
+          mkdir XIVLauncherCN && cd $_
+          mkdir app-$env:LAUNCHER_VERSION
+          cp ..\FFXIVQuickLauncher\src\bin\XIVLauncher.Common.dll .\app-$env:LAUNCHER_VERSION\
+          mkdir Roaming && cd $_
+          mkdir addon && cd $_
+          mkdir Hooks && cd $_
+          mkdir $env:DALAMUD_VERSION
+          cp ..\Dalamud\bin\Release\Dalamud.dll .\$env:DALAMUD_VERSION\
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: patched-artifact
-          path: |
-            .\Dalamud\bin\Release\
-            .\FFXIVQuickLauncher\src\bin\
+          path: .\XIVLauncherCN\
