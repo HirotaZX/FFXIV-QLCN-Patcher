@@ -66,12 +66,12 @@ jobs:
             .\MSBuild.exe $Env:GITHUB_WORKSPACE\FFXIVQuickLauncher\src\XIVLauncher.sln /t:Build /p:Configuration=ReleaseNoUpdate
       - name: Arrange files
         run: |
-          mkdir XIVLauncherCN && cd $_
+          mkdir XIVLauncherCN | cd
           mkdir app-$env:LAUNCHER_VERSION
           cp ..\FFXIVQuickLauncher\src\bin\XIVLauncher.Common.dll .\app-$env:LAUNCHER_VERSION\
-          mkdir Roaming && cd $_
-          mkdir addon && cd $_
-          mkdir Hooks && cd $_
+          mkdir Roaming | cd
+          mkdir addon | cd
+          mkdir Hooks | cd
           mkdir $env:DALAMUD_VERSION
           cp ..\Dalamud\bin\Release\Dalamud.dll .\$env:DALAMUD_VERSION\
       - name: Upload artifact
