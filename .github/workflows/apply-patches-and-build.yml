@@ -6,9 +6,12 @@ jobs:
     name: Build on Windows
     runs-on: windows-2022
     steps:
+      - name: Set global git user
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
       - name: Checkout patches
         uses: actions/checkout@v4
-      - uses: fregante/setup-git-user@v2
       - name: Checkout Dalamud
         uses: actions/checkout@v4
         with:
