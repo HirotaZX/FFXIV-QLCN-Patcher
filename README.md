@@ -8,6 +8,9 @@
 
 Patches which remove unreasonable ToS, analytics, plugin bans and integrity check from Dalamud and XIVLauncher CN.
 
+Download the zip file from the automatic build above and overwrite the contents of the XIVLauncherCN installation folder. 
+Not using the Github Releases for transparency.
+
 ### Diffs between goatcorp and ottercorp
 https://github.com/goatcorp/Dalamud/compare/master...ottercorp:master
 https://github.com/goatcorp/FFXIVQuickLauncher/compare/master...ottercorp:FFXIVQuickLauncher:CN
