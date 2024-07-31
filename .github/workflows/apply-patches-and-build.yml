@@ -100,7 +100,7 @@ jobs:
           cp $Env:GITHUB_WORKSPACE\Dalamud\bin\Release\Dalamud.dll .\$Env:DALAMUD_VERSION\
           cd $Env:GITHUB_WORKSPACE\dist\
           mkdir Dalamud.Updater | cd
-          cp $Env:GITHUB_WORKSPACE\Dalamud.Updater\bin\Release\net48\Dalamud.Updater.exe .
+          cp $Env:GITHUB_WORKSPACE\Dalamud.Updater\Dalamud.Updater\bin\Release\net48\Dalamud.Updater.exe .
           mkdir XIVLauncher | cd
           mkdir addon | cd
           mkdir Hooks | cd
