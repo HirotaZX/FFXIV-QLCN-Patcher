@@ -2,7 +2,8 @@ name: Apply Patches and Build
 on: [push, pull_request, workflow_dispatch]
 
 env:
-  DALAMUD_VERSION: 9.1.0.2
+  DALAMUD_VERSION: 9.1.0.12
+  DALAMUD_HASH: ba30c5d95632a6ec42f0fcfe5f3c6a9b22567687
   LAUNCHER_VERSION: 6.3.14-beta9
   UPDATER_VERSION: master
 jobs:
@@ -40,7 +41,7 @@ jobs:
       - name: Apply Dalamud Patches
         working-directory: .\Dalamud
         run: |
-          git checkout -b patched $Env:DALAMUD_VERSION
+          git checkout -b patched $Env:DALAMUD_HASH
           Get-ChildItem $Env:GITHUB_WORKSPACE\patches\Dalamud\*.cherry | % {$_.FullName} | % { Get-Content $_ } | git cherry-pick -X theirs --stdin
           Get-ChildItem $Env:GITHUB_WORKSPACE\patches\Dalamud\*.patch | % {$_.FullName} | % { Get-Content $_ } | git apply --whitespace=fix
           git log --oneline -n 5
