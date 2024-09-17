@@ -1,0 +1,1 @@
+## 本專案已移交非營利開源組織🦈鯊鯊軍團🦈更新維護，並更名為🦈鯊鯊補丁🦈，[點此前往](https://github.com/sharkycorps/FFXIVSharkyPatcher)
